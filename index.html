@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Art - Galería de Arte</title>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+
+      * {
+        font-family: "Courier Prime", "Courier New", monospace;
+      }
+
+      .section-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .section-card:hover {
+        transform: translateY(-8px);
+      }
+
+      .typewriter-cursor {
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 1.2s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+
+      .hamburger span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        margin: 5px 0;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .hamburger.open span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      nav a {
+        position: relative;
+        transition: opacity 0.3s ease;
+      }
+
+      nav a:hover {
+        opacity: 0.6;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        transition: width 0.3s ease;
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+    </style>
+    <style>
+      @view-transition {
+        navigation: auto;
+      }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  </head>
+  <body class="h-full">
+    <div id="app" class="w-full h-full overflow-auto">
+      <!-- Navigation -->
+      <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <a
+            href="#home"
+            id="nav-logo"
+            class="text-xl md:text-2xl font-bold tracking-tight"
+            >Open Art</a
+          >
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#home"
+              id="menu-item-1"
+              class="text-sm tracking-wider uppercase"
+              >Inicio</a
+            >
+            <a
+              href="#galeria"
+              id="menu-item-2"
+              class="text-sm tracking-wider uppercase"
+              >Galería</a
+            >
+            <a
+              href="#obras"
+              id="menu-item-3"
+              class="text-sm tracking-wider uppercase"
+              >Obras</a
+            >
+            <a
+              href="#contacto"
+              id="menu-item-4"
+              class="text-sm tracking-wider uppercase"
+              >Contacto</a
+            >
+          </div>
+          <!-- Mobile Hamburger -->
+          <button
+            id="hamburger"
+            class="md:hidden hamburger z-50"
+            aria-label="Menu"
+          >
+            <span></span> <span></span> <span></span>
+          </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div
+          id="mobile-menu"
+          class="mobile-menu fixed top-0 right-0 h-full w-64 md:hidden z-40 shadow-2xl"
+        >
+          <div class="flex flex-col items-start p-8 pt-20 space-y-6">
+            <a
+              href="#home"
+              id="mobile-menu-item-1"
+              class="text-lg tracking-wider uppercase mobile-menu-link"
+              >Inicio</a
+            >
+            <a
+              href="#galeria"
+              id="mobile-menu-item-2"
+              class="text-lg tracking-wider uppercase mobile-menu-link"
+              >Galería</a
+            >
+            <a
+              href="#obras"
+              id="mobile-menu-item-3"
+              class="text-lg tracking-wider uppercase mobile-menu-link"
+              >Obras</a
+            >
+            <a
+              href="#contacto"
+              id="mobile-menu-item-4"
+              class="text-lg tracking-wider uppercase mobile-menu-link"
+              >Contacto</a
+            >
+          </div>
+        </div>
+      </nav>
+      <!-- Hero Section -->
+      <header
+        id="home"
+        class="min-h-screen flex flex-col justify-center items-center px-6 py-20 pt-32"
+      >
+        <div class="text-center max-w-4xl fade-in">
+          <h1
+            id="gallery-title"
+            class="text-5xl md:text-8xl font-bold mb-6 tracking-tight"
+          ></h1>
+          <div class="flex justify-center items-center gap-2 mb-4">
+            <p id="gallery-subtitle" class="text-lg md:text-2xl opacity-70"></p>
+            <span class="typewriter-cursor text-lg md:text-2xl">_</span>
+          </div>
+          <p
+            class="text-xs md:text-sm opacity-50 uppercase tracking-widest mt-8"
+          >
+            RE:BAROQUE
+          </p>
+        </div>
+        <div class="mt-20 animate-bounce">
+          <svg
+            class="w-8 h-8 opacity-50"
+            fill="none"
+            stroke="currentColor"
+            viewbox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </div>
+      </header>
+      <!-- Project Introduction -->
+      <section class="max-w-5xl mx-auto px-6 py-20">
+        <div class="space-y-8">
+          <div class="border-l-2 pl-8">
+            <p class="text-base md:text-lg leading-relaxed mb-6">
+              <strong>RE:BAROQUE</strong> es un proyecto de
+              investigación-creación que revisita imaginarios barrocos y
+              renacentistas desde una perspectiva contemporánea. Mediante
+              pintura digital y video, la serie analiza la transformación de
+              conceptos como cuerpo, poder, espiritualidad, creación y
+              mortalidad en contextos atravesados por tecnología, automatización
+              y pensamiento algorítmico.
+            </p>
+            <p class="text-base md:text-lg leading-relaxed mb-6">
+              A través de cinco piezas, el proyecto propone una lectura crítica
+              del canon clásico, donde el claroscuro, la composición dramática y
+              la carga simbólica del barroco dialogan con estéticas digitales,
+              procesos algorítmicos y nociones posthumanistas. El cuerpo aparece
+              como interfaz, lo sagrado como sistema y la razón como estructura
+              susceptible de error.
+            </p>
+            <p class="text-base md:text-lg leading-relaxed">
+              RE:BAROQUE se sitúa así como un espacio visual de reflexión sobre
+              la condición humana en la era digital, explorando tensiones entre
+              historia, técnica y sensibilidad, y utilizando la imagen como
+              herramienta de pensamiento crítico y cultural.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Gallery Sections -->
+      <main id="galeria" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center mb-20">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4">LAS CINCO PIEZAS</h2>
+          <div class="w-32 h-1 mx-auto"></div>
+        </div>
+        <div id="obras" class="space-y-32">
+          <!-- Section 0 - Daemon Algorithm -->
+          <section class="section-card">
+            <div class="border-2 p-8 md:p-12 hover:shadow-2xl">
+              <div class="text-sm mb-4 opacity-50">[01]</div>
+              <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                Daemon Algorithm
+              </h2>
+              <div class="w-20 h-1 mb-8"></div>
+              <p class="text-lg md:text-2xl opacity-70 italic mb-8">
+                Marco conceptual de la serie
+              </p>
+              <p class="text-sm md:text-base leading-relaxed opacity-80">
+                Relectura de
+                <em>El sueño de la razón produce monstruos</em> donde la caída
+                de la razón no produce bestias, sino sistemas autónomos. La
+                imagen plantea el algoritmo como nuevo daemon: invisible,
+                omnipresente y fuera de control humano.
+              </p>
+              <div
+                class="mt-12 aspect-video flex items-center justify-center border"
+              >
+                <svg
+                  class="w-16 h-16 md:w-24 md:h-24 opacity-20"
+                  fill="none"
+                  stroke="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </section>
+          <!-- Section 1 -->
+          <section class="section-card">
+            <div class="border-2 p-8 md:p-12 hover:shadow-2xl">
+              <div class="text-sm mb-4 opacity-50">[02]</div>
+              <h2
+                id="section-1-title"
+                class="text-3xl md:text-5xl font-bold mb-6"
+              ></h2>
+              <div class="w-20 h-1 mb-8"></div>
+              <p
+                id="section-1-desc"
+                class="text-lg md:text-2xl opacity-70 italic mb-8"
+              ></p>
+              <p class="text-sm md:text-base leading-relaxed opacity-80">
+                Inspirada en Caravaggio, esta pieza reimagina el triunfo no como
+                exaltación de la fuerza, sino como un acto contemplativo. El
+                poder tecnológico no elimina la vulnerabilidad humana: la
+                victoria deja restos, dudas y responsabilidad.
+              </p>
+              <div
+                class="mt-12 aspect-video flex items-center justify-center border"
+              >
+                <svg
+                  class="w-16 h-16 md:w-24 md:h-24 opacity-20"
+                  fill="none"
+                  stroke="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </section>
+          <!-- Section 2 -->
+          <section class="section-card">
+            <div class="border-2 p-8 md:p-12 hover:shadow-2xl">
+              <div class="text-sm mb-4 opacity-50">[03]</div>
+              <h2
+                id="section-2-title"
+                class="text-3xl md:text-5xl font-bold mb-6"
+              ></h2>
+              <div class="w-20 h-1 mb-8"></div>
+              <p
+                id="section-2-desc"
+                class="text-lg md:text-2xl opacity-70 italic mb-8"
+              ></p>
+              <p class="text-sm md:text-base leading-relaxed opacity-80">
+                Una reinterpretación de la piedad clásica donde lo humano
+                sostiene a lo artificial. La obra explora empatía, duelo y
+                cuidado en un mundo donde la frontera entre organismo y máquina
+                se vuelve porosa.
+              </p>
+              <div
+                class="mt-12 aspect-video flex items-center justify-center border"
+              >
+                <svg
+                  class="w-16 h-16 md:w-24 md:h-24 opacity-20"
+                  fill="none"
+                  stroke="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </section>
+          <!-- Section 3 -->
+          <section class="section-card">
+            <div class="border-2 p-8 md:p-12 hover:shadow-2xl">
+              <div class="text-sm mb-4 opacity-50">[04]</div>
+              <h2
+                id="section-3-title"
+                class="text-3xl md:text-5xl font-bold mb-6"
+              ></h2>
+              <div class="w-20 h-1 mb-8"></div>
+              <p
+                id="section-3-desc"
+                class="text-lg md:text-2xl opacity-70 italic mb-8"
+              ></p>
+              <p class="text-sm md:text-base leading-relaxed opacity-80">
+                La chispa divina es reemplazada por un flujo de información.
+                Esta pieza traduce el gesto fundacional del Renacimiento en un
+                acto de transmisión de datos, cuestionando origen, autoría y
+                creación en la era digital.
+              </p>
+              <div
+                class="mt-12 aspect-video flex items-center justify-center border"
+              >
+                <svg
+                  class="w-16 h-16 md:w-24 md:h-24 opacity-20"
+                  fill="none"
+                  stroke="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </section>
+          <!-- Section 4 -->
+          <section class="section-card">
+            <div class="border-2 p-8 md:p-12 hover:shadow-2xl">
+              <div class="text-sm mb-4 opacity-50">[05]</div>
+              <h2
+                id="section-4-title"
+                class="text-3xl md:text-5xl font-bold mb-6"
+              ></h2>
+              <div class="w-20 h-1 mb-8"></div>
+              <p
+                id="section-4-desc"
+                class="text-lg md:text-2xl opacity-70 italic mb-8"
+              ></p>
+              <p class="text-sm md:text-base leading-relaxed opacity-80">
+                Inspirada en la imaginería barroca del purgatorio, la obra
+                presenta el alma como sistema que se reinicia sin borrar del
+                todo sus fallas. El error persiste como memoria y como
+                aprendizaje.
+              </p>
+              <div
+                class="mt-12 aspect-video flex items-center justify-center border"
+              >
+                <svg
+                  class="w-16 h-16 md:w-24 md:h-24 opacity-20"
+                  fill="none"
+                  stroke="currentColor"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer id="contacto" class="text-center py-16 px-6 border-t-2 mt-32">
+        <p class="text-sm opacity-50">© 2024 Open Art</p>
+        <p class="text-xs opacity-30 mt-2">
+          Arte digital · Posthumanismo · Reflexión tecnológica
+        </p>
+      </footer>
+    </div>
+    <script>
+      const defaultConfig = {
+        background_color: "#fafafa",
+        surface_color: "#ffffff",
+        text_color: "#1a1a1a",
+        accent_color: "#333333",
+        border_color: "#e0e0e0",
+        font_family: "Courier Prime",
+        font_size: 16,
+        gallery_title: "Open Art",
+        gallery_subtitle: "marco conceptual",
+        menu_item_1: "Inicio",
+        menu_item_2: "Galería",
+        menu_item_3: "Obras",
+        menu_item_4: "Contacto",
+        section_1_title: "David 2.0 — La cabeza de Goliat",
+        section_1_desc: "Poder y reflexión moral",
+        section_2_title: "Piedad Posthuman",
+        section_2_desc: "Compasión más allá de lo biológico",
+        section_3_title: "Creación — Transferencia de Datos",
+        section_3_desc: "Canon y tecnología",
+        section_4_title: "Reboot Purgatorio",
+        section_4_desc: "Cierre: memoria, error y reinicio",
+      };
+
+      // Mobile menu functionality
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        mobileMenu.classList.toggle("open");
+      });
+
+      mobileMenuLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileMenu.classList.remove("open");
+        });
+      });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      async function onConfigChange(config) {
+        const backgroundColor =
+          config.background_color || defaultConfig.background_color;
+        const surfaceColor =
+          config.surface_color || defaultConfig.surface_color;
+        const textColor = config.text_color || defaultConfig.text_color;
+        const accentColor = config.accent_color || defaultConfig.accent_color;
+        const borderColor = config.border_color || defaultConfig.border_color;
+        const customFont = config.font_family || defaultConfig.font_family;
+        const baseFontSize = config.font_size || defaultConfig.font_size;
+        const fontStack = "Courier New, monospace";
+
+        document.body.style.backgroundColor = backgroundColor;
+        document.body.style.color = textColor;
+        document.body.style.fontFamily = `${customFont}, ${fontStack}`;
+
+        const app = document.getElementById("app");
+        app.style.backgroundColor = backgroundColor;
+
+        const nav = document.querySelector("nav");
+        nav.style.backgroundColor = `${surfaceColor}dd`;
+        nav.style.borderBottom = `1px solid ${borderColor}`;
+
+        const navLinks = nav.querySelectorAll("a");
+        navLinks.forEach((link) => {
+          link.style.color = textColor;
+        });
+
+        const hamburgerSpans = document.querySelectorAll(".hamburger span");
+        hamburgerSpans.forEach((span) => {
+          span.style.backgroundColor = textColor;
+        });
+
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenu.style.backgroundColor = surfaceColor;
+
+        const header = document.querySelector("header");
+        header.style.color = textColor;
+
+        const footer = document.querySelector("footer");
+        footer.style.borderColor = borderColor;
+
+        const cards = document.querySelectorAll(".section-card > div");
+        cards.forEach((card) => {
+          card.style.borderColor = borderColor;
+          card.style.backgroundColor = surfaceColor;
+        });
+
+        const lines = document.querySelectorAll(".section-card .w-20");
+        lines.forEach((line) => {
+          line.style.backgroundColor = accentColor;
+        });
+
+        const sectionTitle = document.querySelector("main .text-center h2");
+        if (sectionTitle) {
+          sectionTitle.style.fontSize = `${baseFontSize * 2.5}px`;
+        }
+
+        const sectionTitleLine = document.querySelector(
+          "main .text-center .w-32"
+        );
+        if (sectionTitleLine) {
+          sectionTitleLine.style.backgroundColor = accentColor;
+        }
+
+        const afterStyles = document.querySelectorAll("nav a");
+        afterStyles.forEach((link) => {
+          const pseudo = window.getComputedStyle(link, "::after");
+          link.style.setProperty("--after-bg", accentColor);
+        });
+
+        document.getElementById("nav-logo").textContent =
+          config.gallery_title || defaultConfig.gallery_title;
+        document.getElementById("gallery-title").textContent =
+          config.gallery_title || defaultConfig.gallery_title;
+        document.getElementById("gallery-title").style.fontSize = `${
+          baseFontSize * 3.5
+        }px`;
+
+        document.getElementById("gallery-subtitle").textContent =
+          config.gallery_subtitle || defaultConfig.gallery_subtitle;
+        document.getElementById("gallery-subtitle").style.fontSize = `${
+          baseFontSize * 1.25
+        }px`;
+
+        document.getElementById("menu-item-1").textContent =
+          config.menu_item_1 || defaultConfig.menu_item_1;
+        document.getElementById("menu-item-2").textContent =
+          config.menu_item_2 || defaultConfig.menu_item_2;
+        document.getElementById("menu-item-3").textContent =
+          config.menu_item_3 || defaultConfig.menu_item_3;
+        document.getElementById("menu-item-4").textContent =
+          config.menu_item_4 || defaultConfig.menu_item_4;
+
+        document.getElementById("mobile-menu-item-1").textContent =
+          config.menu_item_1 || defaultConfig.menu_item_1;
+        document.getElementById("mobile-menu-item-2").textContent =
+          config.menu_item_2 || defaultConfig.menu_item_2;
+        document.getElementById("mobile-menu-item-3").textContent =
+          config.menu_item_3 || defaultConfig.menu_item_3;
+        document.getElementById("mobile-menu-item-4").textContent =
+          config.menu_item_4 || defaultConfig.menu_item_4;
+
+        document.getElementById("section-1-title").textContent =
+          config.section_1_title || defaultConfig.section_1_title;
+        document.getElementById("section-1-title").style.fontSize = `${
+          baseFontSize * 2.5
+        }px`;
+
+        document.getElementById("section-1-desc").textContent =
+          config.section_1_desc || defaultConfig.section_1_desc;
+        document.getElementById("section-1-desc").style.fontSize = `${
+          baseFontSize * 1.25
+        }px`;
+
+        document.getElementById("section-2-title").textContent =
+          config.section_2_title || defaultConfig.section_2_title;
+        document.getElementById("section-2-title").style.fontSize = `${
+          baseFontSize * 2.5
+        }px`;
+
+        document.getElementById("section-2-desc").textContent =
+          config.section_2_desc || defaultConfig.section_2_desc;
+        document.getElementById("section-2-desc").style.fontSize = `${
+          baseFontSize * 1.25
+        }px`;
+
+        document.getElementById("section-3-title").textContent =
+          config.section_3_title || defaultConfig.section_3_title;
+        document.getElementById("section-3-title").style.fontSize = `${
+          baseFontSize * 2.5
+        }px`;
+
+        document.getElementById("section-3-desc").textContent =
+          config.section_3_desc || defaultConfig.section_3_desc;
+        document.getElementById("section-3-desc").style.fontSize = `${
+          baseFontSize * 1.25
+        }px`;
+
+        document.getElementById("section-4-title").textContent =
+          config.section_4_title || defaultConfig.section_4_title;
+        document.getElementById("section-4-title").style.fontSize = `${
+          baseFontSize * 2.5
+        }px`;
+
+        document.getElementById("section-4-desc").textContent =
+          config.section_4_desc || defaultConfig.section_4_desc;
+        document.getElementById("section-4-desc").style.fontSize = `${
+          baseFontSize * 1.25
+        }px`;
+      }
+
+      function mapToCapabilities(config) {
+        return {
+          recolorables: [
+            {
+              get: () =>
+                config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              },
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              },
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              },
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              },
+            },
+            {
+              get: () => config.border_color || defaultConfig.border_color,
+              set: (value) => {
+                config.border_color = value;
+                window.elementSdk.setConfig({ border_color: value });
+              },
+            },
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            },
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            },
+          },
+        };
+      }
+
+      function mapToEditPanelValues(config) {
+        return new Map([
+          [
+            "gallery_title",
+            config.gallery_title || defaultConfig.gallery_title,
+          ],
+          [
+            "gallery_subtitle",
+            config.gallery_subtitle || defaultConfig.gallery_subtitle,
+          ],
+          ["menu_item_1", config.menu_item_1 || defaultConfig.menu_item_1],
+          ["menu_item_2", config.menu_item_2 || defaultConfig.menu_item_2],
+          ["menu_item_3", config.menu_item_3 || defaultConfig.menu_item_3],
+          ["menu_item_4", config.menu_item_4 || defaultConfig.menu_item_4],
+          [
+            "section_1_title",
+            config.section_1_title || defaultConfig.section_1_title,
+          ],
+          [
+            "section_1_desc",
+            config.section_1_desc || defaultConfig.section_1_desc,
+          ],
+          [
+            "section_2_title",
+            config.section_2_title || defaultConfig.section_2_title,
+          ],
+          [
+            "section_2_desc",
+            config.section_2_desc || defaultConfig.section_2_desc,
+          ],
+          [
+            "section_3_title",
+            config.section_3_title || defaultConfig.section_3_title,
+          ],
+          [
+            "section_3_desc",
+            config.section_3_desc || defaultConfig.section_3_desc,
+          ],
+          [
+            "section_4_title",
+            config.section_4_title || defaultConfig.section_4_title,
+          ],
+          [
+            "section_4_desc",
+            config.section_4_desc || defaultConfig.section_4_desc,
+          ],
+        ]);
+      }
+
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues,
+        });
+      }
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9ba04276e3a4eef2',t:'MTc2Nzc1NTQwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
